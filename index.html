@@ -1,336 +1,283 @@
--<!DOCTYPE HTML>
-<!-- Pitom Saha -->
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
-	<head>
-		<style> 
-			
-			
-			@font-face{font-family:kidsgame; src: url(KidsGame.ttf);}
-			body{background-image:url('images/back1.jpg');}
-			#header{text-align:center;font-family:kidsgame; font-weight:900; font-size:72pt;}
-			
-			.headfish{height:6%; width:10%;}
-			#rulesbox{font-size:12pt; font-family:Calibri; margin-left:65%; margin-right:2%; float:right; font-weight:800; background-color:white; opacity:0.5; border-radius:10px; text-align:center; border-style:solid; border-width:2px; position:fixed; display:none; }
-			.dev{font-family:Calibri; font-weight:400; font-size:12pt;}
-			.footer {height:6%; background-color:yellow; margin-bottom:2%; margin-top:34%;}
-			.exit{border-radius:10px; text-align:right; margin-right:1%; margin-top:1%; font-size:6pt; height:1%;}
-			#UI{border-radius:4px; border-style:solid; width:15%; text-align:center; font-family:Calibri; background-color:grey; margin-left:2%; font-weight:900;opacity:0.2; transition:opacity .25s ease-in-out; -moz-transition:opacity 0.25s ease-in-out; -webkit-transition: opacity 0.25s ease-in-out;}
-			#UI:hover{opacity:1;}
-			.spacing{margin-left:2px; margin-right:2px;}
-			button{border-radius:6px; width:auto; transition:width .25s ease-in-out; -moz-transition:opacity 0.25s ease-in-out; -webkit-transition: opacity 0.25s ease-in-out; font-family:system;font-size:18pt;}
-			button:hover {background-color:white; opacity:0.8; border-color:black; width:50%;}
-			#playingfield{border-style:solid; margin-left:15%; margin-right:2%; float:right; width:80%; height:40%; background-color:green; border-radius:5px; text-align:center;}
-			#p21:hover {border-style:solid; border-color:yellow; border-radius:3px;}
-			#p22:hover {border-style:solid; border-color:yellow; border-radius:3px;} 
-			#p23:hover {border-style:solid; border-color:yellow; border-radius:3px;} 
-			#p24:hover {border-style:solid; border-color:yellow; border-radius:3px;} 
-			#p25:hover {border-style:solid; border-color:yellow; border-radius:3px;}
-			#p26:hover {border-style:solid; border-color:yellow; border-radius:3px;}
-			#p27:hover {border-style:solid; border-color:yellow; border-radius:3px;}
-			#msg{display:none;}
-		</style>
-			<title>
-			|Go Fish| The Ultimatum
-			</title>
-			
-		<script type="text/javascript" src = "playingcards.js"></script>	
-		<script type="text/javascript">
-		
-		player1 = new Array();
-		player2 = new Array();
-		deckreal = new Array();
-		stockpile = new Array();
-		
-		
-		
-		
-	
-		
-		function initialize()
-		{
-			deckreal = generateStandardDeck();
-			deckreal = shuffle(deckreal);
-		
-			for(i=0; i<=7; i++)
-			{
-				if(deckreal != null)
-				{
-					var card = dealCard(deckreal);
-					player2.insertCard(card);
-					
-					
-					card = dealCard(deckreal);
-					player1.insertCard(card);
-					
-				}
-			}
-			
-			display();
-			p1turn = false;
-		
-			
-			
-		}
-		
-	
-		
+<head>
 
-		
-		
-		function display()
-		{
-			document.getElementById("p11").src = "";
-			document.getElementById("p12").src = "";
-			document.getElementById("p13").src = "";
-			document.getElementById("p14").src = "" ;
-			document.getElementById("p15").src = "";
-			document.getElementById("p16").src = "";
-			document.getElementById("p17").src = "";
-			
-			document.getElementById("p11").src = "images/" + extractCardData(player1[topOfDeck()], 2);
-			document.getElementById("p12").src = "images/" + extractCardData(player1[topOfDeck() + 1], 2);
-			document.getElementById("p13").src = "images/" + extractCardData(player1[topOfDeck() + 2], 2);
-			document.getElementById("p14").src = "images/" + extractCardData(player1[topOfDeck() + 3], 2);
-			document.getElementById("p15").src = "images/" + extractCardData(player1[topOfDeck() + 4], 2);
-			document.getElementById("p16").src = "images/" + extractCardData(player1[topOfDeck() + 5], 2);
-			document.getElementById("p17").src = "images/" + extractCardData(player1[topOfDeck() + 6], 2);
-			// This needs to become more dynamic so img tags cane beadded on the fly
-			// document.getElementById("p11").src = "images/back-blue-75-3.png";
-			// document.getElementById("p12").src = "images/back-blue-75-3.png";
-			// document.getElementById("p13").src = "images/back-blue-75-3.png";
-			// document.getElementById("p14").src = "images/back-blue-75-3.png";
-			// document.getElementById("p15").src = "images/back-blue-75-3.png";
-			// document.getElementById("p16").src = "images/back-blue-75-3.png";
-			// document.getElementById("p17").src = "images/back-blue-75-3.png";
-			
-			document.getElementById("p21").src = "";
-			document.getElementById("p22").src = "";
-			document.getElementById("p23").src = "";
-			document.getElementById("p24").src = "" ;
-			document.getElementById("p25").src = "";
-			document.getElementById("p26").src = "";
-			document.getElementById("p27").src = "";
-			
-			document.getElementById("p21").src = "images/" + extractCardData(player2[topOfDeck()], 2);
-			document.getElementById("p22").src = "images/" + extractCardData(player2[topOfDeck() + 1], 2);
-			document.getElementById("p23").src = "images/" + extractCardData(player2[topOfDeck() + 2], 2);
-			document.getElementById("p24").src = "images/" + extractCardData(player2[topOfDeck() + 3], 2);
-			document.getElementById("p25").src = "images/" + extractCardData(player2[topOfDeck() + 4], 2);
-			document.getElementById("p26").src = "images/" + extractCardData(player2[topOfDeck() + 5], 2);
-			document.getElementById("p27").src = "images/" + extractCardData(player2[topOfDeck() + 6], 2);
-			// Refreshes cards
-			
-		}
-		
-		function exit(elID)
-		{
-			document.getElementById(elID).style.display = "none";
-			
-		}
-		
-		function disp(elID)
-		{	
-			document.getElementById(elID).style.display = "block";
-		}
-		
-		function findHand(cardidx)
-		{
-		
-			if(p1turn == true)
-				{
-					
-							tmprank = extractCardData(player1[cardidx],0);
-							findSay();
-							
-							
-							
-						
-				}
-			
-			if(p1turn == false)
-				{
-				
-				
-							tmprank = extractCardData(player2[cardidx],0);
-							findSay();
-						
-				}
-		}
-		
-		function findSay()
-		{
-							if (tmprank == 1)
-								{
-									msg = "aces";
-								}
-							if(tmprank == 2)
-								{
-									msg = "twos";
-								}
-							if(tmprank == 3)
-								{
-									msg = "threes";
-								}
-							if(tmprank == 4)
-								{
-									msg = "fours";
-								}
-							if(tmprank == 5)
-								{
-									msg = "fives";
-								}
-							if(tmprank == 6)
-								{
-									msg = "sixes";
-								}
-							if(tmprank == 7)
-								{
-									msg = "sevens";
-								}
-							if(tmprank == 8)
-								{
-									msg = "eights";
-								}
-							if(tmprank == 9)
-								{
-									msg = "nines";
-								}
-							if(tmprank == 10)
-								{
-									msg = "tens";
-								}
-							if(tmprank == 11)
-								{
-									msg ="jacks";
-								}
-							if(tmprank == 12)
-								{
-									msg = "queens";
-								}
-							if(tmprank == 13)
-								{
-									msg = "kings";
-								}
-			document.getElementById("msg").style.display = "inline";
-			document.getElementById("rankname").innerHTML = msg;
-		}
-			
-		// fade function*
-		// Change the opacity of element, and + for set time
-		
-		
-		function checkHand(handarray, requestedcard)
-		{
-			// oh wait checks if all cards in deck for matches
-			
-			
-			otherarray = new Array;
-			if(p1turn == true)
-				{
-					otherarray = player2;	
-				}
-				
-			if(p1turn == false)
-			{
-				otherarray = player1;
-			}
-				
-			
-				for(f=0; f< otherarray.length ; f++)
-				{	
-					if(tmprank == parseInt(extractCardData(otherarray[f],0)))
-					{
-						alert("Yea other player has this card. ");
-						
-						 matchedcards = new Array;
-						 matchedcards.push(otherarray[f]);
-							
-							removeCard(otherarray, f);
-							display();
-						
-					}
-				}
-			
-			
-			
-		}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-		function devtest(hand)
-		{
-			//see whats really in each players hand
-			 for(i=0; i< hand.length -1; i++)
-			 {
-				alert(hand[i]);
-			 }
-		}
-		
-		
-		</script>
-	</head>
+    <title>Creative - Start Bootstrap Theme</title>
 
-	<body>
-	<div id="header">Go Fish<img class="headfish" src="images/goldfish_animation.gif" /></div>
-	<button onclick="devtest(player1);">Check Player 1's Array</button><br />
-	<button onclick="devtest(player2);">Check Player 2's Array</button><br />
-	<button onclick="devtest(matchedcards);">Check Matched Array</button><br />
-	<div id="rulesbox"><div class="exit"><button class="exit" onclick="exit(rulesbox);">X</button></div>
-	<span class="spacing">A standard 52 card deck is used. The dealer deals 5 cards to each player (7 each for 2 players). The remaining cards are placed face down to form a stock.
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 
-	The player to dealer's left starts. A turn consists of asking a specific player for a specific rank. For example, if it is my turn I might say: 'Mary, please give me your jacks'. The player who asks must already hold at least one card of the requested rank, so I must hold at least one jack to say this. If the player who was asked (Mary) has cards of the named rank (jacks in this case), she must give all her cards of this rank to the player who asked for them. That player then gets another turn and may again ask any player for any rank already held by the asker.
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
 
-	If the person asked does not have any cards of the named rank, they say 'Go fish!'. The asker must then draw the top card of the undealt stock. If the drawn card is the rank asked for, the asker shows it and gets another turn. If the drawn card is not the rank asked for, the asker keeps it, but the turn now passes to the player who said 'Go fish!'.
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
 
-	As soon as a player collects a book of 4 cards of the same rank, this must be shown and discarded face down. The game continues until either someone has no cards left in their hand or the stock runs out. The winner is the player who then has the most books.</span>
-	<br />
-	</div>
-	
-		
-		
-	<div id="UI">
-	<form id="nameform">
-	Name:&nbsp; <input type="text" name="name">
-	</form>
-	<button onclick="initialize();">Start</button><br />
-	<button onclick="disp(rulesbox);">Rules</button><br />
-	<button>Reset</button><br />
-	</div>
-		
-	<div id="playingfield">	
-	<div id="p1images">
-	<img id="p11" src= "" /><img id="p12" src = ""/><img id="p13" src=""  /><img id="p14"  src="" /><img id="p15" src =""/><img id="p16" src="" /><img id="p17" src="" /><span id ="whoturn"></span>
-	<br />
-	<div id="p2images">
-	<img id="p21" onmouseover="findHand(0);" onclick="checkHand(player1, tmprank);"/>
-	<img id="p22" onmouseover="findHand(1);" onclick="checkHand(player1, tmprank);" />
-	<img id="p23"  onmouseover="findHand(2);" onclick="checkHand(player1, tmprank);"/>
-	<img id="p24"  onmouseover="findHand(3);" onclick="checkHand(player1, tmprank);"/>
-	<img id="p25" onmouseover="findHand(4);" onclick="checkHand(player1, tmprank);" />
-	<img id="p26" onmouseover="findHand(5);"  onclick="checkHand(player1, tmprank);"/>
-	<img id="p27" onmouseover="findHand(6);"  onclick="checkHand(player1, tmprank);"/>
-	<br />
-	<span id="msg">Got any  <span id ="rankname"></span>?</span>
-	</div>
-	
-	<footer class="footer">
-	<hr />
-	"lol dev tests"
-	</footer>
-	
-	
-	<!--
-	This game is often just known as Fish, but the name "Fish" (or Canadian Fish or Russian Fish) is also sometimes used for the more complex partnership game Literature. Go Fish is best for 3-6 players, but it is possible for 2 to play. A standard 52 card deck is used. The dealer deals 5 cards to each player (7 each for 2 players). The remaining cards are placed face down to form a stock.
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/creative.css" type="text/css">
 
-	The player to dealer's left starts. A turn consists of asking a specific player for a specific rank. For example, if it is my turn I might say: 'Mary, please give me your jacks'. The player who asks must already hold at least one card of the requested rank, so I must hold at least one jack to say this. If the player who was asked (Mary) has cards of the named rank (jacks in this case), she must give all her cards of this rank to the player who asked for them. That player then gets another turn and may again ask any player for any rank already held by the asker.
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-	If the person asked does not have any cards of the named rank, they say 'Go fish!'. The asker must then draw the top card of the undealt stock. If the drawn card is the rank asked for, the asker shows it and gets another turn. If the drawn card is not the rank asked for, the asker keeps it, but the turn now passes to the player who said 'Go fish!'.
+</head>
 
-	As soon as a player collects a book of 4 cards of the same rank, this must be shown and discarded face down. The game continues until either someone has no cards left in their hand or the stock runs out. The winner is the player who then has the most books.
-		
-	http://www.pagat.com/quartet/gofish.html
-	-->
-	</body>
-	<script type="text/javascript">
-	msg = document.getElementById("msg");
-	</script>
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>Your Favorite Source of Free Bootstrap Themes</h1>
+                <hr>
+                <p>Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!</p>
+                <a href="#about" class="btn btn-primary btn-xl page-scroll">Find Out More</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-primary" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">We've got what you need!</h2>
+                    <hr class="light">
+                    <p class="text-faded">Start Bootstrap has everything you need to get your new website up and running in no time! All of the templates and themes on Start Bootstrap are open source, free to download, and easy to use. No strings attached!</p>
+                    <a href="#" class="btn btn-default btn-xl">Get Started!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">At Your Service</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+                        <h3>Sturdy Templates</h3>
+                        <p class="text-muted">Our templates are updated regularly so they don't break.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Ready to Ship</h3>
+                        <p class="text-muted">You can use this theme as is, or you can make changes!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <h3>Up to Date</h3>
+                        <p class="text-muted">We update dependencies to keep things fresh.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Made with Love</h3>
+                        <p class="text-muted">You have to make your websites with love these days!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="no-padding" id="portfolio">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/1.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/2.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/3.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/5.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/6.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="bg-dark">
+        <div class="container text-center">
+            <div class="call-to-action">
+                <h2>Free Download at Start Bootstrap!</h2>
+                <a href="#" class="btn btn-default btn-xl wow tada">Download Now!</a>
+            </div>
+        </div>
+    </aside>
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Let's Get In Touch!</h2>
+                    <hr class="primary">
+                    <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                </div>
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-phone fa-3x wow bounceIn"></i>
+                    <p>123-456-6789</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/creative.js"></script>
+
+</body>
+
 </html>
